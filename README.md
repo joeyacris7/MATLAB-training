@@ -1,6 +1,6 @@
 # MATLAB-training
 %%%% AN 88 LINE TOPOLOGY OPTIMIZATION CODE Nov, 2010 %%%%
-function top88(nelx,nely,volfrac,penal,rmin,ft)
+function Exercise2(nelx,nely,volfrac,penal,rmin,ft)
 %% MATERIAL PROPERTIES
 E0 = 1;
 Emin = 1e-9;
@@ -17,9 +17,12 @@ edofMat = repmat(edofVec,1,8)+repmat([0 1 2*nely+[2 3 0 1] -2 -1],nelx*nely,1);
 iK = reshape(kron(edofMat,ones(8,1))',64*nelx*nely,1);
 jK = reshape(kron(edofMat,ones(1,8))',64*nelx*nely,1);
 % DEFINE LOADS AND SUPPORTS (HALF MBB-BEAM)
-F = sparse(2,1,-1,2*(nely+1)*(nelx+1),1);
+load1 = 2+((nelx/3)*((nely+1)*2));
+load2 = 2+((2*nelx/3)*((nely+1)*2));
+loads = [load1, load2];
+F = sparse(loads,1,-1,2*(nely+1)*(nelx+1),1);
 U = zeros(2*(nely+1)*(nelx+1),1);
-fixeddofs = union([1:2:2*(nely+1)],[2*(nelx+1)*(nely+1)]);
+fixeddofs = union([2*(nely+1)],[2*(nelx+1)*(nely+1)]);
 alldofs = [1:2*(nely+1)*(nelx+1)];
 freedofs = setdiff(alldofs,fixeddofs);
 %% PREPARE FILTER
@@ -112,4 +115,6 @@ end
 % free from errors. Furthermore, we shall not be liable in any event       %
 % caused by the use of the program.                                        %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
 
